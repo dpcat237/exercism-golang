@@ -1,6 +1,9 @@
 package raindrops
 
-import "strconv"
+import (
+	"sort"
+	"strconv"
+)
 
 var factors = map[int]string{
 	3: "Pling",
@@ -10,9 +13,16 @@ var factors = map[int]string{
 
 func Convert(n int) string {
 	var str string
-	for fac, s := range factors {
+
+	var keys []int
+	for k := range factors {
+		keys = append(keys, k)
+	}
+	sort.Ints(keys)
+
+	for _, fac := range keys {
 		if n%fac == 0 {
-			str = str + s
+			str = str + factors[fac]
 		}
 	}
 
