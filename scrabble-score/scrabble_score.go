@@ -2,23 +2,6 @@ package scrabble
 
 import "strings"
 
-var marks = []Mark{
-	{Letters: "AEIOULNRST", Mark: 1},
-	{Letters: "DG", Mark: 2},
-	{Letters: "BCMP", Mark: 3},
-	{Letters: "FHVWY", Mark: 4},
-	{Letters: "K", Mark: 5},
-	{Letters: "JX", Mark: 8},
-	{Letters: "QZ", Mark: 10},
-	{Letters: "AEIOULNRST", Mark: 1},
-}
-
-// Mark is a structure for letters mark
-type Mark struct {
-	Letters string
-	Mark    int
-}
-
 // Score calculates score of passed string
 func Score(w string) int {
 	sum := 0
@@ -27,23 +10,28 @@ func Score(w string) int {
 	}
 
 	w = strings.ToUpper(w)
-	ltrs := make(map[string]int)
 	for _, l := range w {
-		ltrs[string(l)]++
-	}
-	for l, c := range ltrs {
-		sum += c * getMark(l)
+		sum += getMark(l)
 	}
 	return sum
 }
 
-func getMark(ltr string) int {
-	for _, m := range marks {
-		for _, l := range m.Letters {
-			if ltr == string(l) {
-				return m.Mark
-			}
-		}
+func getMark(ltr rune) int {
+	switch ltr {
+	case 'A', 'E', 'I', 'O', 'U', 'L', 'N', 'R', 'S', 'T':
+		return 1
+	case 'D', 'G':
+		return 2
+	case 'B', 'C', 'M', 'P':
+		return 3
+	case 'F', 'H', 'V', 'W', 'Y':
+		return 4
+	case 'K':
+		return 5
+	case 'J', 'X':
+		return 8
+	case 'Q', 'Z':
+		return 10
 	}
 	return 0
 }
