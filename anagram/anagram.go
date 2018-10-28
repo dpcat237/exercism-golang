@@ -8,14 +8,16 @@ import (
 func Detect(subject string, candidates []string) []string {
 	var result []string
 	for _, candidate := range candidates {
+		if len(subject) != len(candidate) {
+			continue
+		}
+
 		lSub := strings.ToLower(subject)
 		lCan := strings.ToLower(candidate)
 		if lSub == lCan {
 			continue
 		}
-		if len(lSub) != len(lCan) {
-			continue
-		}
+		
 		if equalInts(normalize(lSub), normalize(lCan)) {
 			result = append(result, candidate)
 		}
