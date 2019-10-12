@@ -8,7 +8,7 @@ func Transform(given map[int][]string) map[string]int {
 
 	for n, lts := range given {
 		for _, l := range lts {
-			rsl[strings.ToLower(string(l))] = n
+			rsl[strings.ToLower(l)] = n
 		}
 	}
 

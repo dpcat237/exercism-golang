@@ -27,7 +27,7 @@ type Transform struct {
 
 // FromRNA transforms from RNA to protein
 func FromRNA(in string) ([]string, error) {
-	rsl := []string{}
+	var rsl []string
 	reg := regexp.MustCompile("\\S{3}")
 	rna := reg.FindAllStringSubmatch(in, -1)
 
@@ -56,7 +56,7 @@ func FromCodon(in string) (string, error) {
 		return false
 	}
 
-	getProteine := func(in string) string {
+	getProtein := func(in string) string {
 		for _, td := range transData {
 			for _, s := range td.Codon {
 				if s == in {
@@ -72,7 +72,7 @@ func FromCodon(in string) (string, error) {
 		return "", STOP
 	}
 
-	p := getProteine(in)
+	p := getProtein(in)
 	if p == "" {
 		return "", ErrInvalidBase
 	}

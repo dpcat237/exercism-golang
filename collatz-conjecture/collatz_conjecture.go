@@ -1,10 +1,10 @@
 package collatzconjecture
 
-import "github.com/pkg/errors"
+import "fmt"
 
 func CollatzConjecture(n int) (int, error) {
 	if n < 1 {
-		return 0, errors.New("Wrong number")
+		return 0, fmt.Errorf("Wrong number")
 	}
 	return calculate(n, 0), nil
 }

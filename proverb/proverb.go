@@ -17,7 +17,7 @@ func Proverb(rhyme []string) []string {
 
 	for i := 0; i < total; i++ {
 		if i < (total - 1) {
-			generated = append(generated, fmt.Sprintf(fraseTemplate, string(rhyme[i]), string(rhyme[i+1])))
+			generated = append(generated, fmt.Sprintf(fraseTemplate, rhyme[i], rhyme[i+1]))
 			continue
 		}
 		generated = append(generated, fmt.Sprintf(endTemplate, rhyme[0]))
