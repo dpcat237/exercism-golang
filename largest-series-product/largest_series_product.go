@@ -1,9 +1,6 @@
 package lsproduct
 
-import (
-	"fmt"
-	"strconv"
-)
+import "errors"
 
 type Product struct {
 	result uint64
@@ -11,65 +8,44 @@ type Product struct {
 }
 
 func LargestSeriesProduct(dgtsStr string, sp int) (int, error) {
-	if sp < 0 {
-		return -1, fmt.Errorf("span must be greater than zero")
-	}
-	if sp > len(dgtsStr) {
-		return -1, fmt.Errorf("span larger than digits lenght")
-	}
 	if sp == 0 {
 		return 1, nil
 	}
+	if sp < 0 {
+		return -1, errors.New("span must be greater than zero")
+	}
+	if sp > len(dgtsStr) {
+		return -1, errors.New("span larger than digits length")
+	}
 
-	var dgts []uint64
-	var prods []Product
+	circBuff := make([]int, sp)
+	product := 1
+	var cInd, max int
 	for _, dgtStr := range dgtsStr {
-		n, err := strconv.ParseUint(string(dgtStr), 10, 64)
-		if err != nil {
-			return -1, err
+		if dgtStr < '0' || dgtStr > '9' {
+			return 0, errors.New("strings in input")
 		}
-		dgts = append(dgts, n)
-	}
+		val := int(dgtStr - '0')
 
-	total := len(dgts)
-	if total == sp {
-		var pro Product
-		pro.digits = append(pro.digits, dgts[0])
-		for s := 1; s < sp; s++ {
-			pro.digits = append(pro.digits, dgts[s])
-		}
-		pro.CountProduct()
-		return int(pro.result), nil
-	}
-
-	for i := 0; i <= total-sp; i++ {
-		var pro Product
-		pro.digits = append(pro.digits, dgts[i])
-		for s := 1; s < sp; s++ {
-			pro.digits = append(pro.digits, dgts[i+s])
-		}
-		pro.CountProduct()
-		prods = append(prods, pro)
-	}
-
-	var rst uint64
-	for _, p := range prods {
-		if p.result > rst {
-			rst = p.result
-		}
-	}
-	return int(rst), nil
-}
-
-func (p *Product) CountProduct() {
-	var c uint32
-	for _, dig := range p.digits {
-		if c == 0 {
-			p.result = dig
-			c++
+		if val == 0 {
+			cInd = 0
+			product = 1
 			continue
 		}
-		p.result *= dig
-		c++
+
+		product *= val
+		circBuff[cInd%sp] = val
+		cInd++
+
+		if cInd < sp {
+			continue
+		}
+
+		if product > max {
+			max = product
+		}
+		product = product / circBuff[cInd%sp]
 	}
+
+	return max, nil
 }
