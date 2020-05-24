@@ -1,14 +1,12 @@
 package pangram
 
-import "strings"
-
 func IsPangram(str string) bool {
 	if len(str) < 24 {
 		return false
 	}
 	pgm := make(map[int]bool)
-	for _, r := range strings.ToLower(str) {
-		n := int(r)
+	for _, r := range str {
+		n := toLower(int(r))
 		if isValid(n) {
 			pgm[n] = true
 		}
@@ -21,10 +19,12 @@ func isValid(n int) bool {
 }
 
 func hasAll(pgm map[int]bool) bool {
-	for i := 97; i <= 122; i++ {
-		if !pgm[i] {
-			return false
-		}
+	return len(pgm) == (123 - 97)
+}
+
+func toLower(n int) int {
+	if n >= 65 && n <= 90 {
+		return n + 32
 	}
-	return true
+	return n
 }
