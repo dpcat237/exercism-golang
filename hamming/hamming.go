@@ -1,21 +1,23 @@
 package hamming
 
-import "errors"
+import (
+	"errors"
+	"unicode/utf8"
+)
 
 func Distance(a, b string) (int, error) {
-	if len(a) < 1 {
-		return 0, nil
-	}
-
-	if len(a) != len(b) {
+	if utf8.RuneCountInString(a) != utf8.RuneCountInString(b) {
 		return -1, errors.New("DNAs with different lengths")
 	}
 
-	c := 0
-	for i := 0; i < len(a); i++ {
-		if a[i] != b[i] {
-			c++
+	var dist int
+	for _, r1 := range a {
+		r2, size := utf8.DecodeRuneInString(b)
+		if r1 != r2 {
+			dist++
 		}
+		b = b[size:]
 	}
-	return c, nil
+
+	return dist, nil
 }
