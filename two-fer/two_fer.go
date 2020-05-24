@@ -1,15 +1,9 @@
 package twofer
 
-import "fmt"
-
-const (
-	baseYou = "you"
-	baseSentence = "One for %s, one for me."
-)
-
+// ShareWith should have a comment documenting it.
 func ShareWith(name string) string {
-	if len(name) > 0 {
-		return fmt.Sprintf(baseSentence, name)
+	if name == "" {
+		return "One for you, one for me."
 	}
-	return fmt.Sprintf(baseSentence, baseYou)
+	return "One for " + name + ", one for me."
 }
