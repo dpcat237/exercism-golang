@@ -11,7 +11,7 @@ func Valid(txt string) bool {
 	c := 1
 	cn := 0
 	sum := 0
-	for i := total-1; i >= 0; i-- {
+	for i := total - 1; i >= 0; i-- {
 		r := txt[i]
 		if !isValidRune(rune(r)) {
 			return false
@@ -33,7 +33,7 @@ func Valid(txt string) bool {
 	if cn < 2 {
 		return false
 	}
-	return sum % 10 == 0
+	return sum%10 == 0
 }
 
 func doublingNumber(num int) int {
