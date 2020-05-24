@@ -1,7 +1,6 @@
 package raindrops
 
 import (
-	"sort"
 	"strconv"
 )
 
@@ -12,22 +11,14 @@ var factors = map[int]string{
 }
 
 func Convert(n int) string {
-	var str string
-
-	var keys []int
-	for k := range factors {
-		keys = append(keys, k)
-	}
-	sort.Ints(keys)
-
-	for _, fac := range keys {
-		if n%fac == 0 {
-			str = str + factors[fac]
+	var rst string
+	for _, k := range [3]int{3, 5, 7} {
+		if n%k == 0 {
+			rst += factors[k]
 		}
 	}
-
-	if len(str) == 0 {
+	if len(rst) == 0 {
 		return strconv.Itoa(n)
 	}
-	return str
+	return rst
 }
