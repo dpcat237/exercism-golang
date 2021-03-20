@@ -2,22 +2,20 @@ package hamming
 
 import (
 	"errors"
-	"unicode/utf8"
 )
 
 func Distance(a, b string) (int, error) {
-	if utf8.RuneCountInString(a) != utf8.RuneCountInString(b) {
-		return -1, errors.New("DNAs with different lengths")
+	differenceCount := 0
+
+	if len(a) != len(b) {
+		return differenceCount, errors.New("Irregular DNA structure (length)")
 	}
 
-	var dist int
-	for _, r1 := range a {
-		r2, size := utf8.DecodeRuneInString(b)
-		if r1 != r2 {
-			dist++
+	for i, v := range a {
+		if v != rune(b[i]) {
+			differenceCount++
 		}
-		b = b[size:]
 	}
 
-	return dist, nil
+	return differenceCount, nil
 }
